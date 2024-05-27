@@ -81,7 +81,7 @@ const LoadingOverlay = styled.div`
 const LoadingIndicator = styled.div`
     border: 4px solid #ccc;
     border-top: 4px solid #a7ce2e;
-    border-radius: 8px;
+    border-radius: 50%;
     width: 30px;
     height: 30px;
     animation: spin 1s linear infinite;
@@ -224,12 +224,6 @@ export const Report = () => {
         } catch (error) {
             alert(error.message);
         }
-    };
-
-    const sleep = (time) => {
-        return new Promise((resolve) => {
-            setTimeout(resolve, time);
-        });
     };
 
     const uploadFiles = async (selectedFiles) => {
