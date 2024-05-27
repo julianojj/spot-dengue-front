@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Header } from "../header";
+import { Carousel } from "../carousel";
 
 const Container = styled.div`
-    padding: 24px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     max-width: 1024px;
@@ -19,7 +20,7 @@ const ReportContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 16px;
     background-color: #f9f9f9;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
@@ -33,22 +34,9 @@ const ReportComments = styled.p`
     font-weight: 700;
 `;
 
-const ReportImagesContainer = styled.div`
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-
-    a {
-        color: #a7ce2e;
-    }
-`;
-
-const ReportImage = styled.img`
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 8px;
-`;
+const ReportMotion = styled.p`
+    color: #444;
+`
 
 const FilterContainer = styled.div`
     margin-bottom: 16px;
@@ -88,7 +76,7 @@ export const Home = () => {
     const convertDatetimeToLocalDateBRL = (date) => {
         return new Date(date).toLocaleString('pt-BR')
     }
-    
+
     return (
         <>
             <Header />
@@ -102,27 +90,27 @@ export const Home = () => {
                     </FilterSelect>
                 </FilterContainer>
                 {filteredReports.length > 0 ?
-                filteredReports.map((report) => (
+                    filteredReports.map((report) => (
+                        <>
+                            <ReportContainer key={report.reportID}>
+                                <Carousel report={{ images: report.images }} />
+                                <ReportComments>{report.comments}</ReportComments>
+                                <ReportStatus status={report.status}>{report.status}</ReportStatus>
+                                {report.motion !== "" &&
+                                    <ReportMotion>{report.motion}</ReportMotion>
+                                }
+                                <p>{report.street}, {report.streetNumber}, {report.neighborhood}, {report.city} - {report.state}, {report.zipCode}</p>
+                                <p>Denúnciado em: {convertDatetimeToLocalDateBRL(report.reportDate)}</p>
+                                <p>Atualizado em: {convertDatetimeToLocalDateBRL(report.updateDate)}</p>
+                                <h3>Imagens</h3>
+                            </ReportContainer>
+                        </>
+                    ))
+                    :
                     <>
-                    <ReportContainer key={report.reportID}>
-                        <ReportComments>{report.comments}</ReportComments>
-                        <ReportStatus status={report.status}>{report.status}</ReportStatus>
-                        <p>{report.street}, {report.streetNumber}, {report.neighborhood}, {report.city} - {report.state}, {report.zipCode}</p>
-                        <p>Denúnciado em: {convertDatetimeToLocalDateBRL(report.reportDate)}</p>
-                        <h3>Imagens</h3>
-                        <ReportImagesContainer>
-                            {report.images.map((image, index) => (
-                                <ReportImage key={index} src={image} alt={`Imagem ${index + 1}`} />
-                            ))}
-                        </ReportImagesContainer>
-                    </ReportContainer>
+                        Não há denuncias
                     </>
-                ))
-                :
-                <>
-                    Não há denuncias
-                </>    
-            }
+                }
             </Container>
         </>
     );
