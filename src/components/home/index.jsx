@@ -85,6 +85,10 @@ export const Home = () => {
         ? reports.filter((report) => report.status === filteredStatus)
         : reports;
 
+    const convertDatetimeToLocalDateBRL = (date) => {
+        return new Date(date).toLocaleString('pt-BR')
+    }
+    
     return (
         <>
             <Header />
@@ -104,7 +108,7 @@ export const Home = () => {
                         <ReportComments>{report.comments}</ReportComments>
                         <ReportStatus status={report.status}>{report.status}</ReportStatus>
                         <p>{report.street}, {report.streetNumber}, {report.neighborhood}, {report.city} - {report.state}, {report.zipCode}</p>
-                        <p>Denúnciado em: {report.reportDate}</p>
+                        <p>Denúnciado em: {convertDatetimeToLocalDateBRL(report.reportDate)}</p>
                         <h3>Imagens</h3>
                         <ReportImagesContainer>
                             {report.images.map((image, index) => (
