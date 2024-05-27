@@ -1,3 +1,4 @@
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -21,33 +22,47 @@ const Container = styled.div`
             align-items: center;
             gap: 16px;
 
-            a {
-                color: #333;
-                text-decoration: none;
-                font-weight: bold;
-                font-size: 18px;
-                transition: opacity 0.3s ease;
-
-                &:hover {
-                    text-decoration: underline 2px #a7ce2e;
-                    color: #a7ce2e;
-                }
+            .active {
+                text-decoration: underline 2px #a7ce2e;
+                color: #a7ce2e;
             }
         }
     }
 `;
 
+const NavLink = styled.a`
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    transition: opacity 0.3s ease;
+
+    &:hover {
+        text-decoration: underline 2px #a7ce2e;
+        color: #a7ce2e;
+    }
+`
+
 
 export const Header = () => {
-    return(
+    const location = useLocation()
+    const { pathname } = location
+
+    return (
         <Container>
-        <header>
-            <h1>Spot Dengue</h1>
-            <nav>
-                <a href="/">Página Inicial</a>
-                <a href="/report">Página de Denúncias</a>
-            </nav>
-        </header>
-    </Container>
+            <header>
+                <h1>Spot Dengue</h1>
+                <nav>
+                    <NavLink
+                        href="/"
+                        className={pathname == "/" && "active"}
+                    >Página Inicial</NavLink>
+                    <NavLink
+                        href="/report"
+                        className={pathname == "/report" && "active"}
+                    >Página de Denúncias</NavLink>
+                </nav>
+            </header>
+        </Container>
     )
 }
