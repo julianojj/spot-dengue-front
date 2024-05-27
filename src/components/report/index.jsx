@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import image from '../../../public/image.svg';
+import image from '/public/image.svg';
 import { Header } from "../header";
 
 const Container = styled.div`
