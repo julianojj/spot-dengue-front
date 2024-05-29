@@ -1,7 +1,9 @@
+import { faCity, faHouse, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Header } from "../header";
 import { Carousel } from "../carousel";
+import { Header } from "../header";
 
 const Container = styled.div`
     padding: 16px;
@@ -30,13 +32,9 @@ const ReportStatus = styled.p`
     font-weight: bold;
 `;
 
-const ReportComments = styled.p`
-    font-weight: 700;
-`;
-
 const ReportMotion = styled.p`
     color: #444;
-`
+`;
 
 const FilterContainer = styled.div`
     margin-bottom: 16px;
@@ -45,6 +43,36 @@ const FilterContainer = styled.div`
 const FilterSelect = styled.select`
     padding: 8px;
     border-radius: 8px;
+`;
+
+const ReportDates = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    p {
+        font-size: 14px;
+    }
+`;
+
+const ReportAddress = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 16px;
+`;
+
+const ReportComments = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    hr {
+        border-top: 1px solid #ddd;
+    }
 `;
 
 export const Home = () => {
@@ -91,25 +119,40 @@ export const Home = () => {
                 </FilterContainer>
                 {filteredReports.length > 0 ?
                     filteredReports.map((report) => (
-                        <>
-                            <ReportContainer key={report.reportID}>
-                                <Carousel report={{ images: report.images }} />
-                                <ReportComments>{report.comments}</ReportComments>
-                                <ReportStatus status={report.status}>{report.status}</ReportStatus>
-                                {report.motion !== "" &&
-                                    <ReportMotion>{report.motion}</ReportMotion>
+                        <ReportContainer key={report.reportID}>
+                            <Carousel report={{ images: report.images }} />
+                            <ReportStatus status={report.status}>{report.status}</ReportStatus>
+                            <ReportAddress>
+                                <FontAwesomeIcon icon={faHouse} />
+                                <p>{report.street}, {report.streetNumber} - {report.neighborhood}</p>
+                            </ReportAddress>
+                            <ReportAddress>
+                                <FontAwesomeIcon icon={faCity} />
+                                <p>{report.city} - {report.state}</p>
+                            </ReportAddress>
+                            <ReportAddress>
+                                <FontAwesomeIcon icon={faLocationDot} />
+                                <p>{report.zipCode}</p>
+                            </ReportAddress>
+                            <ReportComments>
+                                <ReportDates>
+                                    <p>Denunciado em: {convertDatetimeToLocalDateBRL(report.reportDate)}</p>
+                                </ReportDates>
+                                <p className="comments">Comentários: {report.comments}</p>
+                                {report.reason !== "" &&
+                                    <>
+                                        <hr />
+                                        <ReportDates>
+                                            <p>Verificado em: {convertDatetimeToLocalDateBRL(report.updateDate)}</p>
+                                        </ReportDates>
+                                        <ReportMotion>Comentários: {report.reason}</ReportMotion>
+                                    </>
                                 }
-                                <p>{report.street}, {report.streetNumber}, {report.neighborhood}, {report.city} - {report.state}, {report.zipCode}</p>
-                                <p>Denúnciado em: {convertDatetimeToLocalDateBRL(report.reportDate)}</p>
-                                <p>Atualizado em: {convertDatetimeToLocalDateBRL(report.updateDate)}</p>
-                                <h3>Imagens</h3>
-                            </ReportContainer>
-                        </>
+                            </ReportComments>
+                        </ReportContainer>
                     ))
                     :
-                    <>
-                        Não há denuncias
-                    </>
+                    <p>Não há denúncias</p>
                 }
             </Container>
         </>
