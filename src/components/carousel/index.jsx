@@ -1,3 +1,5 @@
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -10,9 +12,9 @@ const ReportImagesContainer = styled.div`
 const ReportImage = styled.img`
     display: flex;
     width: 100%;
-    object-fit: contain;
-    min-height: 300px;
-    max-height: 300px;
+    object-fit: cover;
+    min-height: 500px;
+    max-height: 500px;
     height: 100%;
 `;
 
@@ -24,13 +26,13 @@ const CarouselWrapper = styled.div`
 `;
 
 const NavigationButton = styled.button`
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
+    background-color: #a7ce2e;
     border: none;
-    padding: 10px 20px;
+    padding: 8px 16px;
     cursor: pointer;
     position: absolute;
     top: 50%;
+    margin: 0 16px;
     transform: translateY(-50%);
     z-index: 2;
 `;
@@ -56,8 +58,22 @@ export const Carousel = ({ report }) => {
 
     return (
         <CarouselWrapper>
-            <PrevButton onClick={handlePrev}>Previous</PrevButton>
-            <NextButton onClick={handleNext}>Next</NextButton>
+            {report.images.length > 1 &&
+                <>
+                    <PrevButton onClick={handlePrev}>
+                        <FontAwesomeIcon 
+                            icon={faChevronLeft}
+                            color='#333'
+                        />
+                    </PrevButton>
+                    <NextButton onClick={handleNext}>
+                    <FontAwesomeIcon 
+                        icon={faChevronRight}
+                        color='#333'
+                    />
+                    </NextButton>
+                </>
+            }
             <ReportImagesContainer>
                 {report.images.map((image, index) => (
                     <ReportImage 
