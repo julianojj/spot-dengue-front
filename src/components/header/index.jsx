@@ -11,6 +11,7 @@ const Container = styled.div`
         margin: auto;
         display: flex;
         align-items: center;
+        
         gap: 16px;
 
         h1 {
@@ -23,8 +24,8 @@ const Container = styled.div`
             gap: 16px;
 
             .active {
-                text-decoration: underline 2px #a7ce2e;
-                color: #a7ce2e;
+                background-color: #a7ce2e;
+                color: #000;
             }
         }
     }
@@ -32,14 +33,15 @@ const Container = styled.div`
 
 const NavLink = styled.a`
     color: #333;
+    border-radius: 8px;
+    padding: 8px;
     text-decoration: none;
     font-weight: bold;
     font-size: 18px;
     transition: opacity 0.3s ease;
 
-    &:hover {
-        text-decoration: underline 2px #a7ce2e;
-        color: #a7ce2e;
+    &:hover:not(.active) {
+        opacity: .7;
     }
 `
 
