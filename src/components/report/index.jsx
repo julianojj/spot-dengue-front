@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from 'react-toastify';
 import styled from "styled-components";
 import { Header } from "../header";
 import image from '/image.svg';
@@ -274,9 +275,8 @@ export const Report = () => {
             },
             body: JSON.stringify(report)
         })
-        if (response.status != 201) alert('Erro ao enviar denúncia')
-        const data = await response.json()
-        alert('Report enviado com sucesso!')
+        if (response.status != 201) return toast.error('Erro ao enviar denúncia')
+        toast.info('Denúncia enviado com sucesso!')
     }
 
     const removeFile = async (id) => {
